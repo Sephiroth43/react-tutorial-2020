@@ -1,8 +1,6 @@
 import React, { Fragment, Component } from 'react';
-import { Route, NavLink } from 'react-router-dom';
 
 import Button from './../../UI/Button/Button';
-import CheckoutSummary from '../../Order/CheckoutSummary/CheckoutSummary';
 
 class OrderSummary extends Component {
     // This could be a functional component, doesn't have to be a class
@@ -30,12 +28,7 @@ class OrderSummary extends Component {
                 <p><strong>Total Price: {this.props.price.toFixed(2)}</strong></p>
                 <p>Continue to Checkout?</p>
                 <Button btnType="Danger" clicked={this.props.purchaseCanceled} >CANCEL</Button>
-                <Button btnType="Success" clicked={this.props.purchaseContinued}><NavLink to={{
-                    // pathname: this.props.match.url + '/new-post',
-                    pathname: '/order-summary',
-                    hash: '#order'
-                }}>CONTINUE</NavLink></Button>
-                <Route path="/order-summary" component={CheckoutSummary} />
+                <Button btnType="Success" clicked={this.props.purchaseContinued}>CONTINUE</Button>
             </Fragment>
         );
     }
