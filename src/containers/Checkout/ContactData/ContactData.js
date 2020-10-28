@@ -13,7 +13,8 @@ export default class ContactData extends Component {
             street: '',
             postalCode: ''
         },
-        loading: false
+        loading: false,
+        price: 0
     }
 
     orderHandler = (event) => {
@@ -23,7 +24,7 @@ export default class ContactData extends Component {
         this.setState({ loading: true });
         const order = {
             ingredients: this.props.ingredients,
-            price: this.state.totalPrice,
+            price: this.props.price,
             customer: {
                 name: 'Max Schwarzmuller',
                 address: {
@@ -63,7 +64,7 @@ export default class ContactData extends Component {
         return (
             <div className={classes.ContactData}>
                 <h4>Enter your Contact Data</h4>
-                {form} 
+                {form}
             </div>
         )
     }
