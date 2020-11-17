@@ -7,7 +7,7 @@ import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import * as burgerBUilderActions from '../../store/actions/index';
+import * as actions from '../../store/actions/index';
 import axios from '../../axios-orders';
 
 class BurgerBuilder extends Component {
@@ -25,7 +25,6 @@ class BurgerBuilder extends Component {
         console.log(this.props);
         this.props.onInitIngredients();
     }
-
 
     updatePurchaseState(ingredients) {
         const sum = Object.keys(ingredients)
@@ -47,6 +46,7 @@ class BurgerBuilder extends Component {
     }
 
     purchaseContinueHandler = () => {
+        this.props.onInitPurchase();
         this.props.history.push('/checkout');
     }
 
@@ -62,17 +62,19 @@ class BurgerBuilder extends Component {
         let burger = this.props.error ? <p>Ingredients  can't be loaded!</p> : <Spinner />
 
         if (this.props.ings) {
-            burger = (<Fragment>
-                <Burger ingredients={this.props.ings} />
-                <BuildControls
-                    ingredientAdded={this.props.onIngredientAdded}
-                    ingredientRemoved={this.props.onIngredientRemoved}
-                    disabled={disabledInfo}
-                    purchasable={this.updatePurchaseState(this.props.ings)}
-                    ordered={this.purchaseHandler}
-                    price={this.props.price}
-                />
-            </Fragment>);
+            burger = (
+                <Fragment>
+                    <Burger ingredients={this.props.ings} />
+                    <BuildControls
+                        ingredientAdded={this.props.onIngredientAdded}
+                        ingredientRemoved={this.props.onIngredientRemoved}
+                        disabled={disabledInfo}
+                        purchasable={this.updatePurchaseState(this.props.ings)}
+                        ordered={this.purchaseHandler}
+                        price={this.props.price}
+                    />
+                </Fragment>
+            );
             orderSummary = <OrderSummary
                 ingredients={this.props.ings}
                 price={this.props.price}
@@ -101,9 +103,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onIngredientAdded: (ingName) => dispatch(burgerBUilderActions.addIngredient(ingName)),
-        onIngredientRemoved: (ingName) => dispatch(burgerBUilderActions.removeIngredient(ingName)),
-        onInitIngredients: () => dispatch(burgerBUilderActions.initIngredients())
+        onIngredientAdded: (ingName) => dispatch(actions.addIngredient(ingName)),
+        onIngredientRemoved: (ingName) => dispatch(actions.removeIngredient(ingName)),
+        onInitIngredients: () => dispatch(actions.initIngredients()),
+        onInitPurchase: () => dispatch(actions.purchaseInit())
     }
 }
 
