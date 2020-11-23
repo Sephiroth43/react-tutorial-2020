@@ -1,4 +1,5 @@
 .Burger {
+    overflow: hidden !important;
     width: 100%;
     margin: auto;
     height: 250px;
